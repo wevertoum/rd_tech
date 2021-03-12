@@ -17,32 +17,32 @@ function customerSuccessBalancing(
       } else return y.score === x.score ? 0 : 1;
     });
 
-  const relacoes = availables.map((cs) => {
-    const myCustomers = customers
+  const relations = availables.map((cs) => {
+    const csCustomers = customers
       .filter(({ score }) => score <= cs.score)
       .map(({ id }) => id);
-    customers = customers.filter(({ id }) => !myCustomers.includes(id));
+    customers = customers.filter(({ id }) => !csCustomers.includes(id));
     return {
       id: cs.id,
-      customers: myCustomers,
+      customers: csCustomers,
     };
   });
 
-  const maisElegiveis = relacoes.sort((x, y) => {
+  const csSortedByCustumers = relations.sort((x, y) => {
     if (y.customers.length > x.customers.length) {
       return -1;
     } else return y.customers.length === x.customers.length ? 0 : 1;
   });
 
-  const primeiro = maisElegiveis.pop();
+  const firstSorted = csSortedByCustumers.pop();
 
-  const iguaisPrimeiro = maisElegiveis.filter(
-    (el) => el.customers.length === primeiro.customers.length
+  const equalsFirstSorted = csSortedByCustumers.filter(
+    (el) => el.customers.length === firstSorted.customers.length
   );
 
-  if (iguaisPrimeiro.length > 0) {
+  if (equalsFirstSorted.length > 0) {
     return 0;
-  } else return primeiro.id;
+  } else return firstSorted.id;
 }
 
 test("Scenario 1", () => {

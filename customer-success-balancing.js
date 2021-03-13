@@ -12,11 +12,9 @@ function customerSuccessBalancing(
   const availables = customerSuccess
     .filter((el) => !customerSuccessAway.includes(el.id))
     .sort((x, y) => {
-      let comparison = 0;
-      if (y.score < x.score) {
-        comparison = 1;
-      } else comparison = -1;
-      return comparison;
+      if (y.score > x.score) {
+        return -1;
+      } else return y.score === x.score ? 0 : 1;
     });
 
   const relations = availables.map((cs) => {
@@ -31,21 +29,18 @@ function customerSuccessBalancing(
   });
 
   const csSortedByCustumers = relations.sort((x, y) => {
-    let comparison = 0;
-    if (y.customers < x.customers) {
-      comparison = 1;
-    } else comparison = -1;
-
-    return comparison;
+    if (y.customers.length > x.customers.length) {
+      return -1;
+    } else return y.customers.length === x.customers.length ? 0 : 1;
   });
 
   const firstSorted = csSortedByCustumers.pop();
 
-  const equalsFirstSorted = csSortedByCustumers.filter(
-    (el) => el.customers.length === firstSorted.customers.length
-  );
-
-  if (equalsFirstSorted.length > 0) {
+  if (
+    csSortedByCustumers.some(
+      (el) => el.customers.length === firstSorted.customers.length
+    )
+  ) {
     return 0;
   } else return firstSorted.id;
 }

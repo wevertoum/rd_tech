@@ -89,9 +89,6 @@ test("Scenario 2", () => {
 });
 
 test("Scenario 3", () => {
-  // namoral eu quero saber como vcs rodam isso aq com 100ms,
-  // de vdd, me ensina kkkk
-
   const testTimeoutInMs = 100;
   const testStartTime = new Date().getTime();
 
